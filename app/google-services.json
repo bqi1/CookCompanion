@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "908676338462",
+    "firebase_url": "https://cookcompanion-bbe55.firebaseio.com",
+    "project_id": "cookcompanion-bbe55",
+    "storage_bucket": "cookcompanion-bbe55.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908676338462:android:4e34a6df904eb98b4f6f0f",
+        "android_client_info": {
+          "package_name": "com.example.cookcompanion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908676338462-i8af9it2cjj2pt9lco17ui0qkacp9bnk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cookcompanion",
+            "certificate_hash": "c1e9e8a398c46a9bfe6b482b06ae06ec18b17b5a"
+          }
+        },
+        {
+          "client_id": "908676338462-ojmi2os6031seib1ttup3602g4jlh8e6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHlcaS9kPXImVvdD4Df1C15YHvWIE9cYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908676338462-ojmi2os6031seib1ttup3602g4jlh8e6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

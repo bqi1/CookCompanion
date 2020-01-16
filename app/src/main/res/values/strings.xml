@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Cook Companion</string>
+    <string name="welcome_message">Welcome back!</string>
+</resources>
