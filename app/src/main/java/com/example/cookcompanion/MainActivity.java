@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -24,6 +27,7 @@ import java.io.StreamCorruptedException;
 public class MainActivity extends AppCompatActivity {
     private MainMessage mainMessage;
     private User user;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mainMessage = new MainMessage();
+        mAuth = FirebaseAuth.getInstance();
         TextView welcomeText = findViewById(R.id.welcome_message);
         welcomeText.setText(mainMessage.getMessage());
     }
@@ -55,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_start_cooking:
                 Toast.makeText(this, "Item 6 selected",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.menu_logout:
+                mAuth.signOut();
+                finish();
+                startActivity(new Intent(this,LoginActivity.class));
                 return true;
              default:
                  return super.onOptionsItemSelected(item);

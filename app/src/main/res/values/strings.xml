@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Cook Companion</string>
     <string name="welcome_message">Welcome back!</string>
+    <string name="login_email_str">Email</string>
+    <string name="login_password_str">Password</string>
+    <string name="Login_register_str">Register here!</string>
+    <string name="Login_register_prompt_str">Don\'t have an account?</string>
+    <string name="Login_Button_str">Login</string>
+    <string name="Login_Title_str">Welcome to Cooking Companion!</string>
+    <string name="RegisterButton_str">Register Account</string>
+    <string name="RegisterTitle_str">Register an Account!</string>
+    <string name="RegisterEmail_str">Email</string>
+    <string name="RegisterPassword_str">Password(>6 characters)</string>
+    <string name="RegisterPasswordConfirm_str">Retype Password</string>
+    <string name="RegisterName_str">Username</string>
 </resources>
