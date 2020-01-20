@@ -7,13 +7,21 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -25,7 +33,6 @@ import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 
 public class MainActivity extends AppCompatActivity {
-    private MainMessage mainMessage;
     private User user;
     private FirebaseAuth mAuth;
     @Override
@@ -34,10 +41,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mainMessage = new MainMessage();
         mAuth = FirebaseAuth.getInstance();
-        TextView welcomeText = findViewById(R.id.welcome_message);
-        welcomeText.setText(mainMessage.getMessage());
+
     }
 
     @Override
@@ -62,9 +67,13 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Item 6 selected",Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_logout:
+                saveUser();
                 mAuth.signOut();
                 finish();
                 startActivity(new Intent(this,LoginActivity.class));
+                return true;
+            case R.id.menu_profile:
+                startActivity(new Intent(this,MainActivity.class));
                 return true;
              default:
                  return super.onOptionsItemSelected(item);
@@ -78,5 +87,44 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()){
+                        Log.d("WHAT", "DocumentSnapshot data: " + document.getData());
+                        user = document.toObject(User.class);
+                        TextView welcomeText = findViewById(R.id.welcome_message);
+                        welcomeText.setText(user.getPersonal_message());
+                    }
+                }
+            }
+        });
 
+
+    }
+
+    public void saveUser(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .document(FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("WHAT", "DocumentSnapshot successfully written!");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w("WHAT", "Error writing document", e);
+            }
+        });
+    }
 }

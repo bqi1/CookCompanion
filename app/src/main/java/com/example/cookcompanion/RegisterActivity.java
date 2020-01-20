@@ -12,10 +12,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -70,6 +73,24 @@ public class RegisterActivity extends AppCompatActivity {
     public void updateUI(FirebaseUser user){
         if(user != null){
             Toast.makeText(getApplicationContext(), "Register successful!",Toast.LENGTH_LONG).show();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String email = ((EditText) findViewById(R.id.RegisterEmail)).getText().toString();
+            String username = ((EditText) findViewById(R.id.RegisterName)).getText().toString();
+            User new_user = new User(username);
+            db.collection("users")
+                    .document(email)
+                    .set(new_user)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                              @Override
+                                              public void onSuccess(Void aVoid) {
+                                                  Log.d("WHAT", "DocumentSnapshot successfully written!");
+                                              }
+                                          }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w("WHAT", "Error writing document", e);
+                }
+            });
             Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
             startActivity(intent);
         }
