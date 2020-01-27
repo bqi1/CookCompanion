@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
                         user = document.toObject(User.class);
                         TextView welcomeText = findViewById(R.id.welcome_message);
                         welcomeText.setText(user.getPersonal_message());
+                        TextView username = findViewById(R.id.profile_name);
+                        username.setText(user.getUsername());
                     }
                 }
             }
